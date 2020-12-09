@@ -86,7 +86,7 @@ void List::add_tail(const std::string &data)
 }
 
 void List::print_all()
-{index
+{
     if (m_count != 0)
     {
         ListNode *temp = m_head;

@@ -18,17 +18,30 @@ void print_binary(T number)
     std::cout << std::endl;
 }
 
+/* 2 вариант функции */
+void to_binary(unsigned long n)
+{
+    unsigned int r = n % 2;
+    if(n >= 2)
+    {
+        to_binary(n/2);
+    } 
+    std::cout <<  ( (r == 1) ? 1 : 0 );
+}
+
 int main()
 {
 
     int x = 2000;
     int x2 = -2000;
 
-    print_binary(x);
-    print_binary(x2);
+    int x3 = 5;
 
-    std::cout << std::bitset<20>(x) << std::endl;
-    std::cout << std::bitset<20>(x2) << std::endl;
+    //print_binary(x);
+    //print_binary(x2);
+    to_binary(x3);
+    //std::cout << std::bitset<20>(x) << std::endl;
+    //std::cout << std::bitset<20>(x2) << std::endl;
 
     return 0;
 }
