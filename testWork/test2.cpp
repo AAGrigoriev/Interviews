@@ -22,10 +22,7 @@ void removeDuplicate(char* str, int n)
                 break;
 
         if (j == i)
-        {
-            std::cout << i << std::endl;
-            std::cout << index << std::endl;
-            
+        {   
             str[index++] = str[i];
             start = i;
         }
