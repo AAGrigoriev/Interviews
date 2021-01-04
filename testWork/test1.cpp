@@ -22,24 +22,33 @@ void print_binary(T number)
 void to_binary(unsigned long n)
 {
     unsigned int r = n % 2;
-    if(n >= 2)
+    if (n >= 2)
     {
-        to_binary(n/2);
-    } 
-    std::cout <<  ( (r == 1) ? 1 : 0 );
+        to_binary(n / 2);
+    }
+    std::cout << ((r == 1) ? 1 : 0);
 }
+
+#include <cstdlib>
+
 
 int main()
 {
 
-    int x = 2000;
-    int x2 = -2000;
+    int array[3];
 
-    int x3 = 5;
+    *(array + 2) = 10;
+
+    std::cout << array[2];
+
+    // int x = 2000;
+    //int x2 = -2000;
+
+    // int x3 = 5;
 
     //print_binary(x);
     //print_binary(x2);
-    to_binary(x3);
+    // to_binary(x3);
     //std::cout << std::bitset<20>(x) << std::endl;
     //std::cout << std::bitset<20>(x2) << std::endl;
 

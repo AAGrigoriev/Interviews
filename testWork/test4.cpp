@@ -61,8 +61,29 @@ std::list<int>::iterator max_list1(std::list<int> &list)
     return max_list_impl1(list.begin(), list.end());
 }
 
+auto foo(int a, float b) -> decltype(a > b ? a : b)
+{
+    if (a > b)
+        return a;
+    else
+        return b;
+}
+
 int main()
 {
+
+    int a;
+    float b;
+    std::cin >> a >> b;
+
+
+    auto temp = foo(a,b);
+    
+
+    bool value = std::is_same<decltype(temp),float>::value;
+
+    std::cout << value << " " << std::endl;
+
     std::list<int> list1;
     list1.push_back(1);
     list1.push_back(2);
