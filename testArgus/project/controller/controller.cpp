@@ -1,5 +1,5 @@
 #include <boost/algorithm/string.hpp>
-
+#include <charconv>
 #include "controller.hpp"
 
 namespace testArgus
@@ -13,32 +13,37 @@ namespace testArgus
         {
             boost::split(results, input_string, [](char c) { return c == ' '; });
 
-            if (results.size() != 0)
+            if (results.size() > 0)
             {
                 if (results[0] == "q")
+                {
                     break;
-                else if (results[0] == "load" || results[0] == "ld")
-                {
-                    //open_cv_wrapper.load_image(results[1],results[2]);
                 }
-                else if(results[0] == "store" || results[0] == "s")
+                else if (results.size() > 2 && (results[0] == "load" || results[0] == "ld"))
                 {
-
+                    open_cv_w.load_image(results[1], results[2]);
                 }
-                else if(results[0] == "blur")
+                else if (results.size() > 2 && (results[0] == "store" || results[0] == "s"))
                 {
-
+                    open_cv_w.store_image(results[1], results[2]);
                 }
-                else if(results[0] == "resize")
+                else if (results.size() > 3 && results[0] == "blur")
                 {
-
+                    int size_blur;
+                    std::from_chars(results[3].data(), results[3].data() + results[3].size(), size_blur);
+                    open_cv_w.blur_image(results[1], results[2], size_blur);
                 }
-                else if(results[0] == "h" || results[0] == "help")
+                else if (results.size() > 4 && results[0] == "resize")
                 {
-
+                    int width, height;
+                    std::from_chars(results[3].data(), results[3].data() + results[3].size(), width);
+                    std::from_chars(results[4].data(), results[4].data() + results[4].size(), height);
+                    open_cv_w.resize_image(results[1],results[2],width,height);
+                }
+                else if (results[0] == "h" || results[0] == "help")
+                {
                 }
             }
         }
     }
-
 } // namespace testArgus

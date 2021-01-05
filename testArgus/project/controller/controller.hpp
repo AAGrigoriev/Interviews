@@ -1,14 +1,14 @@
 #pragma once
 
-#include "openc_cv_module/open_cv.hpp"
-
 #include <vector>
+#include "opencv_module.hpp"
+
 
 namespace testArgus
 {
     /*!
     @brief 
-*/
+    */
     class Controller
     {
 
@@ -21,6 +21,6 @@ namespace testArgus
 
     private:
         /**/
-        open_cv_wrapper open_cv_w;
+        opencv_wrapper open_cv_w;
     };
 } // namespace testArgus
