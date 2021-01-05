@@ -15,7 +15,7 @@ namespace testArgus
 
             if (results.size() > 0)
             {
-                if (results[0] == "q")
+                if (results[0] == "q" || results[0] == "q")
                 {
                     break;
                 }
@@ -25,7 +25,10 @@ namespace testArgus
                 }
                 else if (results.size() > 2 && (results[0] == "store" || results[0] == "s"))
                 {
-                    open_cv_w.store_image(results[1], results[2]);
+                    if (results[2].find(".jpg") != std::string::npos)
+                        open_cv_w.store_image(results[1], results[2]);
+                    else
+                        std::cerr << "Error: need \"name.jpg\"\n";
                 }
                 else if (results.size() > 3 && results[0] == "blur")
                 {
@@ -38,10 +41,19 @@ namespace testArgus
                     int width, height;
                     std::from_chars(results[3].data(), results[3].data() + results[3].size(), width);
                     std::from_chars(results[4].data(), results[4].data() + results[4].size(), height);
-                    open_cv_w.resize_image(results[1],results[2],width,height);
+                    open_cv_w.resize_image(results[1], results[2], width, height);
                 }
                 else if (results[0] == "h" || results[0] == "help")
                 {
+                    std::cout << "load, ld <name> <filename> \n \
+                     store, s <name> <filename> \n  \
+                     blur <from_name> <to_name> <size> \n \
+                     resize <from_name> <to_name> <new_width> <new_height> \n \
+                     exit, quit, q "
+                }
+                else
+                {
+                    std::cerr << "wrong commnad\n";
                 }
             }
         }

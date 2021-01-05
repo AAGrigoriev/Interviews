@@ -15,11 +15,13 @@ namespace testArgus
             std::cerr << "Error: load image failed \n";
         }
 
-        const auto [hint, success] = map_image.insert({name, in_im});
+        map_image[name] = std::move(in_im);
+        /*  const auto [hint, success] = map_image.insert({name, in_im});
         if (!success)
         {
             std::cerr << "Error: name is already taken \n";
         }
+        */
     }
 
     void opencv_wrapper::store_image(const std::string &name, const std::string &file_name)
@@ -36,15 +38,16 @@ namespace testArgus
 
     void opencv_wrapper::blur_image(const std::string &from_name, const std::string &to_name, int size)
     {
+        if (size % 2 == 0)
+        {
+            std::cerr << "Error: need odd size\n";
+            return;
+        }
         if (auto pair = map_image.find(from_name); pair != map_image.end())
         {
             Mat dst;
             medianBlur(pair->second, dst, size);
-            const auto [hint, success] = map_image.insert({to_name, dst});
-            if (!success)
-            {
-                std::cerr << "Error: name is already taken \n";
-            }
+            map_image[to_name] = std::move(dst);
         }
         else
         {
@@ -57,12 +60,8 @@ namespace testArgus
         if (auto pair = map_image.find(from_name); pair != map_image.end())
         {
             Mat dst;
-            resize(pair->second, dst, Size(new_width,new_height));
-            const auto [hint, success] = map_image.insert({to_name, dst});
-            if (!success)
-            {
-                std::cerr << "Error: name is already taken \n";
-            }
+            resize(pair->second, dst, Size(new_width, new_height));
+            map_image[to_name] = std::move(dst);
         }
         else
         {
