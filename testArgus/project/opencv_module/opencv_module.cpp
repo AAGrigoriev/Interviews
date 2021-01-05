@@ -38,7 +38,7 @@ namespace testArgus
 
     void opencv_wrapper::blur_image(const std::string &from_name, const std::string &to_name, int size)
     {
-        if (size % 2 == 0)
+        if (size < 1 && size % 2 == 0)
         {
             std::cerr << "Error: need odd size\n";
             return;

@@ -15,7 +15,7 @@ namespace testArgus
 
             if (results.size() > 0)
             {
-                if (results[0] == "q" || results[0] == "q")
+                if (results[0] == "q" || results[0] == "quit")
                 {
                     break;
                 }
@@ -45,11 +45,11 @@ namespace testArgus
                 }
                 else if (results[0] == "h" || results[0] == "help")
                 {
-                    std::cout << "load, ld <name> <filename> \n \
-                     store, s <name> <filename> \n  \
-                     blur <from_name> <to_name> <size> \n \
-                     resize <from_name> <to_name> <new_width> <new_height> \n \
-                     exit, quit, q "
+                    std::cout << "load, ld <name> <filename> \n" <<
+                     "store, s <name> <filename> \n" <<
+                     "blur <from_name> <to_name> <size> \n" <<
+                     "resize <from_name> <to_name> <new_width> <new_height> \n" <<
+                     "quit, q - exit \n";
                 }
                 else
                 {
