@@ -32,13 +32,13 @@ namespace testArgus
         }
         else
         {
-            std::cerr << "Error: not found image\n";
+            std::cerr << "Error: " + name +" not found \n";
         }
     }
 
     void opencv_wrapper::blur_image(const std::string &from_name, const std::string &to_name, int size)
     {
-        if (size < 1 && size % 2 == 0)
+        if (size < 1 || size % 2 == 0)
         {
             std::cerr << "Error: need odd size\n";
             return;
@@ -51,7 +51,7 @@ namespace testArgus
         }
         else
         {
-            std::cerr << "Error: not found image to blur\n";
+            std::cerr << "Error: not found "+ from_name +  " to blur\n";
         }
     }
 
@@ -65,7 +65,7 @@ namespace testArgus
         }
         else
         {
-            std::cerr << "Error: not found image to blur\n";
+            std::cerr << "Error: not found " + from_name + " to resize\n";
         }
     }
 
