@@ -2,16 +2,29 @@
 #include <algorithm>
 #include <utility>
 #include <iostream>
+#include <iterator>
+#include <bitset>
 
-#include "haffman.hpp"
+#include "Haffman/haffman.hpp"
 
 namespace Revo_LLC
 {
+    unsigned haffman_code::Node::count = 0;
 
-    haffman_code::Node::~Node()
+    void haffman_code::encode_tree(Node *root, std::ofstream &out)
     {
-        std::cout << "destructor\n";
-    }    
+        if (root->left == nullptr)
+        {
+            out << std::bitset<1>(1);
+            out << std::bitset<8>(root->data);
+        }
+        else
+        {
+            out << std::bitset<1>(0);
+            encode_tree(root->left, out);
+            encode_tree(root->right, out);
+        }
+    }
 
     void haffman_code::build_freq_table(std::string const &in)
     {
@@ -21,20 +34,19 @@ namespace Revo_LLC
 
     void haffman_code::fill_deque()
     {
-        auto lamda = [this](auto &pair) { pr_que.emplace(std::make_unique(pair->first, pair->second)); };
+        auto lamda = [this](auto &pair) { pr_que.emplace(new Node(pair.first, pair.second)); };
         std::for_each(symbol_freq.begin(), symbol_freq.end(), lamda);
     }
 
-    void haffman_code::delete_tree(Node* root)
+    void haffman_code::free_tree(Node *root)
     {
-        if(!root)
+        if (!root)
             return;
-        
-        if(root->left)
-            delete_tree(root->left);
-        if(root->right)
-            delete_tree(root->right);
 
+        if (root->left)
+            free_tree(root->left);
+        if (root->right)
+            free_tree(root->right);
         delete root;
     }
 
@@ -46,10 +58,8 @@ namespace Revo_LLC
         if (root->data != '*')
             symbol_code[root->data] = data;
 
-        if (root->left)
-            store_code(root->left, data + "0");
-        if (root->right)
-            store_code(root->left, data + "1");
+        store_code(root->left, data + "0");
+        store_code(root->right, data + "1");
     }
 
     void haffman_code::build_tree()
@@ -66,8 +76,7 @@ namespace Revo_LLC
             node->right = right;
             pr_que.push(node);
         }
-
-        store_code(pr_que.top(),"");
+        store_code(pr_que.top(), "");
     }
 
     void haffman_code::encode(std::string const &file_in, std::string const &file_out)
@@ -81,6 +90,20 @@ namespace Revo_LLC
             if (is.read(&str[0], size))
             {
                 build_freq_table(str);
+                fill_deque();
+                build_tree();
+
+                if (std::ofstream out{file_out, std::ios::binary})
+                {
+                    encode_tree(pr_que.top(), out);
+                    out << " ";
+
+                    for (char elem : str)
+                    {
+                        out << symbol_code[elem];
+                    }
+                }
+                free_tree(pr_que.top());
             }
         }
     }

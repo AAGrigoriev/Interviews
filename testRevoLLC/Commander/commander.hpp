@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <functional>
 #include <iostream>
-#include "haffman.hpp"
+#include "Haffman/haffman.hpp"
 
 /*!
     @brief

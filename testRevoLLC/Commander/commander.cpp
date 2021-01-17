@@ -1,5 +1,5 @@
-#include <commander.hpp>
-#include <option.hpp>
+#include <Commander/commander.hpp>
+#include <option/option.hpp>
 
 static std::size_t command_size = 3; // Я знаю, что исправная комманда состоит из 3 слов
 
