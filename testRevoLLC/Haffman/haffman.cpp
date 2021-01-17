@@ -15,12 +15,15 @@ namespace Revo_LLC
     {
         if (root->left == nullptr)
         {
-            out << std::bitset<1>(1);
-            out << std::bitset<8>(root->data);
+            out << 1;
+            out << root->data;
+            //out << std::bitset<1>(1);
+            //out << std::bitset<8>(root->data);
         }
         else
         {
-            out << std::bitset<1>(0);
+            out << 0;
+            //out << std::bitset<1>(0);
             encode_tree(root->left, out);
             encode_tree(root->right, out);
         }
@@ -96,12 +99,14 @@ namespace Revo_LLC
                 if (std::ofstream out{file_out, std::ios::binary})
                 {
                     encode_tree(pr_que.top(), out);
-                    out << " ";
-
-                    for (char elem : str)
+                   
+                    //out << " ";
+                    /*         for (char elem : str)
                     {
                         out << symbol_code[elem];
                     }
+                    */
+                
                 }
                 free_tree(pr_que.top());
             }
