@@ -11,7 +11,9 @@ SET(SOURCE
 main.cpp
 ${Commander}/commander.cpp
 ${Haffman}/haffman.cpp
-${Option}/option.cpp )
+${Option}/option.cpp 
+${Option}/BitReader.cpp
+${Option}/BitWriter.cpp)
 
 add_executable(main ${SOURCE})
 
