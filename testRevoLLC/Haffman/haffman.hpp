@@ -4,7 +4,11 @@
 #include <unordered_map>
 #include <queue>
 #include <memory>
-#include <fstream>     
+#include <fstream>
+
+#include "option/BitWriter.hpp"
+#include "option/BitReader.hpp"
+
 namespace Revo_LLC
 {
 
@@ -28,24 +32,25 @@ namespace Revo_LLC
 
         void build_tree();
 
-        void store_code(Node *root,std::string data);
+        void store_code(Node *root, std::string data);
 
-        void free_tree(Node* root);
+        void free_tree(Node *root);
 
-        void encode_tree(Node* root,std::ofstream& out);
+        void encode_tree(Node *root, BitWriter &out);
 
-        void decode_tree(Node* root);
+        Node *decode_tree(BitReader &in);
+
+        void print_tree(Node* root);
 
         struct Node
         {
-            Node(char data, unsigned freq) : data(data), freq(freq) { std::cout << ++count;}
-            ~Node() {std::cout << --count;};
+            Node(int data, unsigned freq) : data(data), freq(freq) {}
+            ~Node() {};
             Node *left = nullptr;
             Node *right = nullptr;
 
-            char data;
+            int data;
             unsigned freq;
-            static unsigned count;
         };
 
         struct compare
@@ -56,9 +61,9 @@ namespace Revo_LLC
             }
         };
 
-        std::unordered_map<char, unsigned>      symbol_freq;
+        std::unordered_map<int, unsigned> symbol_freq;
 
-        std::unordered_map<char, std::string>   symbol_code;
+        std::unordered_map<int, std::string> symbol_code;
 
         std::priority_queue<Node *, std::vector<Node *>, compare> pr_que;
     };

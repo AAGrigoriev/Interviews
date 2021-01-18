@@ -4,29 +4,53 @@
 #include <iostream>
 #include <iterator>
 #include <bitset>
+#include <thread>
 
 #include "Haffman/haffman.hpp"
 
 namespace Revo_LLC
 {
-    unsigned haffman_code::Node::count = 0;
-
-    void haffman_code::encode_tree(Node *root, std::ofstream &out)
+    void haffman_code::encode_tree(Node *root, BitWriter &writer)
     {
         if (root->left == nullptr)
         {
-            out << 1;
-            out << root->data;
-            //out << std::bitset<1>(1);
-            //out << std::bitset<8>(root->data);
+            writer.writeBit(1);
+            writer.writeByte(root->data);
         }
         else
         {
-            out << 0;
-            //out << std::bitset<1>(0);
-            encode_tree(root->left, out);
-            encode_tree(root->right, out);
+            writer.writeBit(0);
+            encode_tree(root->left, writer);
+            encode_tree(root->right, writer);
         }
+    }
+
+    haffman_code::Node *haffman_code::decode_tree(BitReader &reader)
+    {
+        if (reader.readBit() == 1)
+        {
+            return new Node(reader.readByte(), 0);
+        }
+        else
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            Node *out = new Node('*', 0);
+            out->left = decode_tree(reader);
+            out->right = decode_tree(reader);
+            return out;
+        }
+    }
+
+    void haffman_code::print_tree(Node *root)
+    {
+        if (root == nullptr)
+            return;
+
+        if (root->data != '*')
+            std::cout << char(root->data) << std::endl;
+
+        print_tree(root->left);
+        print_tree(root->right);
     }
 
     void haffman_code::build_freq_table(std::string const &in)
@@ -98,23 +122,32 @@ namespace Revo_LLC
 
                 if (std::ofstream out{file_out, std::ios::binary})
                 {
-                    encode_tree(pr_que.top(), out);
-                   
+                    BitWriter writer(out);
+                    encode_tree(pr_que.top(), writer);
+                    writer.flush();
                     //out << " ";
                     /*         for (char elem : str)
                     {
                         out << symbol_code[elem];
                     }
                     */
-                
+                    out.close();
                 }
+                print_tree(pr_que.top());
+                std::cout << "\n";
                 free_tree(pr_que.top());
             }
+            is.close();
         }
     }
 
     void haffman_code::decode(std::string const &file_in, std::string const &file_out)
     {
+        if (std::ifstream is{file_in, std::ios::binary})
+        {
+            BitReader reader(is);
+            Node *root = decode_tree(reader);
+            print_tree(root);
+        }
     }
-
 } // namespace Revo_LLC
