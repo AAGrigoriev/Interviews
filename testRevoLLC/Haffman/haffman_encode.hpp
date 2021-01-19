@@ -31,9 +31,7 @@ namespace Revo_LLC
 
         /* Data */
         Node *root = nullptr;
-
-        int PSEUDO_EOF = 256;
-
+        
         u_key symbol_code;
     };
 

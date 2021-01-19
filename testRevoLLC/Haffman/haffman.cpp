@@ -10,24 +10,6 @@
 
 namespace Revo_LLC
 {
- 
-    haffman_code::Node *haffman_code::decode_tree(BitReader &reader)
-    {
-        if (reader.readBit() == 1)
-        {
-            return new Node(reader.readByte(), 0);
-        }
-        else
-        {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            Node *out = new Node('*', 0);
-            out->left = decode_tree(reader);
-            out->right = decode_tree(reader);
-            return out;
-        }
-    }
-
-
 
     void haffman_code::encode(std::string const &file_in, std::string const &file_out)
     {
@@ -37,11 +19,6 @@ namespace Revo_LLC
 
     void haffman_code::decode(std::string const &file_in, std::string const &file_out)
     {
-        if (std::ifstream is{file_in, std::ios::binary})
-        {
-            BitReader reader(is);
-            Node *root = decode_tree(reader);
-            print_tree(root);
-        }
+        decoder.decode(file_in,file_out);
     }
 } // namespace Revo_LLC

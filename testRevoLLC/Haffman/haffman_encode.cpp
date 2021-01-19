@@ -1,5 +1,7 @@
 #include <fstream>
 #include <algorithm>
+#include <iostream>
+
 
 #include "Haffman/haffman_encode.hpp"
 
@@ -34,12 +36,15 @@ namespace Revo_LLC
                         auto &value = symbol_code[elem];
                         out.write(value.c_str(), value.size());
                     }
+
+                    out.write(symbol_code[PSEUDO_EOF].c_str(),symbol_code[PSEUDO_EOF].size());
                     out.close();
                 }
             }
             /* TODO: up */
             in.close();
         }
+        std::cout << "End encode\n";
     }
 
     void haffman_encode::build_freq_table(std::string const &in, u_freq &map_freq)

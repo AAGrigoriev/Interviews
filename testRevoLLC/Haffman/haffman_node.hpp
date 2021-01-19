@@ -1,5 +1,7 @@
 #pragma once
 
+inline int PSEUDO_EOF = 256;
+
 struct Node
 {
     Node(int data, unsigned freq);
@@ -16,7 +18,6 @@ struct compare
     bool operator()(Node *left, Node *right);
 };
 
+void print_tree(Node *root);
 
-void print_tree(Node* root);
-
-void free_tree(Node* root);
+void free_tree(Node *root);

@@ -2,6 +2,7 @@
 
 #include <string>
 #include "Haffman/haffman_encode.hpp"
+#include "Haffman/haffman_decode.hpp"
 
 namespace Revo_LLC
 {
@@ -20,7 +21,7 @@ namespace Revo_LLC
         void decode(std::string const &file_way_in, std::string const &file_way_out);
 
     private:
-
         haffman_encode encoder;
+        haffman_decode decoder;
     };
 } // namespace Revo_LLC
