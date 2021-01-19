@@ -29,8 +29,6 @@ namespace Revo_LLC
 
         void encode_data();
 
-        void free_tree(Node *root);
-
         /* Data */
         Node *root = nullptr;
 

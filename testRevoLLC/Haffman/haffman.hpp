@@ -20,11 +20,6 @@ namespace Revo_LLC
         void decode(std::string const &file_way_in, std::string const &file_way_out);
 
     private:
-        void free_tree(Node *root);
-
-        // Node *decode_tree(BitReader &in);
-
-        void print_tree(Node *root);
 
         haffman_encode encoder;
     };

@@ -27,29 +27,7 @@ namespace Revo_LLC
         }
     }
 
-    void haffman_code::print_tree(Node *root)
-    {
-        if (root == nullptr)
-            return;
 
-        if (root->data != '*')
-            std::cout << char(root->data) << std::endl;
-
-        print_tree(root->left);
-        print_tree(root->right);
-    }
-
-    void haffman_code::free_tree(Node *root)
-    {
-        if (!root)
-            return;
-
-        if (root->left)
-            free_tree(root->left);
-        if (root->right)
-            free_tree(root->right);
-        delete root;
-    }
 
     void haffman_code::encode(std::string const &file_in, std::string const &file_out)
     {

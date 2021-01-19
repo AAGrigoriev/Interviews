@@ -11,6 +11,9 @@ SET(SOURCE
 main.cpp
 ${Commander}/commander.cpp
 ${Haffman}/haffman.cpp
+${Haffman}/haffman_decode.cpp
+${Haffman}/haffman_encode.cpp
+${Haffman}/haffman_node.cpp
 ${Option}/option.cpp 
 ${Option}/BitReader.cpp
 ${Option}/BitWriter.cpp)

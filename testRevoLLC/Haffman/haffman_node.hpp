@@ -10,7 +10,13 @@ struct Node
     unsigned freq;
 };
 
+/* TODO: lamda */
 struct compare
 {
     bool operator()(Node *left, Node *right);
 };
+
+
+void print_tree(Node* root);
+
+void free_tree(Node* root);
