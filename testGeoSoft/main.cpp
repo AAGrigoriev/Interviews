@@ -1,0 +1,35 @@
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include <QQmlContext>
+#include "controller.hpp"
+
+int main(int argc, char *argv[])
+{
+
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
+
+
+    QGuiApplication app(argc, argv);
+
+    QQmlApplicationEngine engine;
+
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                     &app, [url](QObject *obj, const QUrl &objUrl) {
+        if (!obj && url == objUrl)
+            QCoreApplication::exit(-1);
+    }, Qt::QueuedConnection);
+
+
+    controller contr;
+    contr.setConnection("http://jsonplaceholder.typicode.com/n/n/users", 80);
+
+    engine.rootContext()->setContextProperty("jsonModel", contr.getModel());
+
+    engine.load(url);
+
+    return app.exec();
+}
