@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
 
     controller contr;
-    contr.setConnection("http://jsonplaceholder.typicode.com/n/n/users", 80);
+    contr.setConnection("jsonplaceholder.typicode.com", 80);
 
     engine.rootContext()->setContextProperty("jsonModel", contr.getModel());
 

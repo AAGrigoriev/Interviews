@@ -3,6 +3,7 @@
 #include <QJsonObject>
 #include <utility>
 #include <iostream>
+#include <QBrush>
 
 jsonModel::jsonModel(QObject *parent):QAbstractTableModel(parent) {}
 
@@ -20,15 +21,17 @@ int jsonModel::columnCount( QModelIndex const & index) const
 
 QVariant jsonModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid()) {
+    if (!index.isValid())
+    {
         return QVariant();
     }
     switch(role)
     {
-    case Name:
-        return m_data[index.row()].name;
-    case Lat:
-        return m_data[index.row()].lat;
+    case Data:
+        return m_data.at(index.row()).at(index.column());
+    case Color:
+        return (index.column() == m_column_count - 1 ) ?
+                m_data.at(index.row()).at(index.column()).toDouble() >= 0 ? "green" : "red" : "white";
     default:
         return QVariant();
     }
@@ -37,8 +40,8 @@ QVariant jsonModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> jsonModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[Name] = "name";
-    roles[Lat] =  "lat";
+    roles[Data]  = "table_data";
+    roles[Color] = "color_warning";
     return roles;
 }
 
@@ -50,11 +53,11 @@ void jsonModel::setJsonData(QJsonDocument const & doc)
     {
         for(auto beg = array.begin(); beg != array.end();++beg)
         {
-            jSonParam param;
+            QVector<QString> temp;
             QJsonObject subtree = beg->toObject();
-            param.name = subtree["address"].toObject()["city"].toString();
-            param.lat  = subtree["address"].toObject()["geo"].toObject()["lat"].toString().toDouble();
-            m_data.push_back(std::move(param));
+            temp.push_back(subtree["address"].toObject()["city"].toString());
+            temp.push_back(subtree["address"].toObject()["geo"].toObject()["lat"].toString());
+            m_data.push_back(std::move(temp));
         }
         initView();
     }
@@ -73,5 +76,4 @@ void jsonModel::initView()
             emit dataChanged(index,index);
         }
     }
-
 }

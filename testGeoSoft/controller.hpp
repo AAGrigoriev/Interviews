@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <connector.hpp>
+#include <sockets.hpp>
 #include <jsonModel.hpp>
 #include <QString>
 
@@ -19,7 +20,9 @@ public:
 
 private:
 
-    connector m_connector;
+   // connector m_connector;
+    sockets   m_socket;
+
     jsonModel m_model;
 };
 

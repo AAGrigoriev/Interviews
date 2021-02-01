@@ -29,16 +29,17 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
+
     enum Roles {
-        Name = Qt::UserRole + 1,    // Имя
-        Lat                         // Долгота
+        Data = Qt::UserRole + 1,    // Имя
+        Color                       // Цвет
     };
 
-    int m_column_count = 2;
-    QVector<jSonParam> m_data;
+    static constexpr int m_column_count = 2;
+
+    QVector<QVector<QString>> m_data;
 
     void initView();
-
 };
 
 
