@@ -1,11 +1,12 @@
 #include "test.hpp"
 #include <iostream>
 
-int main()
+
+
+int main(int argc, char *argv[])
 {
-    std::string console_output;
 
-    std::getline(std::cin, console_output);
 
-    std::cout << recStart(console_output.begin(),console_output.end());
+  
+    return (0);
 }

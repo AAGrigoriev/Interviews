@@ -1,5 +1,5 @@
 #include <cctype>
-#include "RPNConverter.hpp"
+#include "Converter.hpp"
 
 namespace ntProgress
 {
@@ -12,11 +12,11 @@ namespace ntProgress
         priority_.insert({'/', 2});
     }
 
-    std::stack<std::unique_ptr<IValue>> Converter::toRPN(const std::string &infix)
+    que_rpn Converter::toRPN(const std::string &infix)
     {
         const char *p_value = infix.c_str();
 
-        std::stack<std::unique_ptr<IValue>> out;
+        que_rpn out;
 
         while (*p_value)
         {
@@ -24,21 +24,28 @@ namespace ntProgress
             {
                 ++p_value;
             }
-
-            if (std::isdigit(*p_value))
+            else if (std::isdigit(*p_value))
             {
                 char *next = nullptr;
-                out.push(new Value<double>(std::strtod(p_value, &next)));
+                out.push(std::unique_ptr<IValue>(new Value<double>(std::strtod(p_value, &next))));
                 p_value = next;
             }
             else
             {
                 check_op(p_value, out);
+                ++p_value;
             }
         }
+
+        while (!operand_.empty())
+        {
+            out.push(std::unique_ptr<IValue>(new Value<char>(operand_.top())));
+            operand_.pop();
+        }
+        return out;
     }
 
-    void Converter::check_op(const char *p_value, std::stack<std::unique_ptr<IValue>> &out)
+    void Converter::check_op(const char *p_value, que_rpn &out)
     {
         char op = *p_value;
         switch (op)
@@ -55,14 +62,14 @@ namespace ntProgress
         }
     }
 
-    void Converter::collapse_bracket(std::stack<std::unique_ptr<IValue>> &out)
+    void Converter::collapse_bracket(que_rpn &out)
     {
         while (!operand_.empty())
         {
             char temp = operand_.top();
             if (temp != '(')
             {
-                out.push(new Value<char>(temp));
+                out.push(std::unique_ptr<IValue>(new Value<char>(temp)));
                 operand_.pop();
             }
             else
@@ -73,7 +80,13 @@ namespace ntProgress
         }
     }
 
-    void Converter::assign_op(char op, std::stack<std::unique_ptr<IValue>> &out)
+    void Converter::assign_op(char op, que_rpn &out)
     {
+        while (!operand_.empty() && priority_[op] <= priority_[operand_.top()])
+        {
+            out.push(std::unique_ptr<IValue>(new Value<char>(operand_.top())));
+            operand_.pop();
+        }
+        operand_.push(op);
     }
 }
