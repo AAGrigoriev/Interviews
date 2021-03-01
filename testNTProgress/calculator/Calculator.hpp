@@ -1,33 +1,58 @@
 #pragma once
 
 #include <type_traits>
+#include <stack>
+#include <queue>
+#include <memory>
 
-#include "option.hpp"
-#include "Converter.hpp"
 namespace ntProgress
 {
+    class Calculator;
+
+    /* Можно через гетерогенный контейнер std::any или std::variant */
+    struct IValue
+    {
+        virtual void submit(const Calculator &calc) = 0;
+        virtual ~IValue() = default;
+    };
+
+    /* Для char/double */
+    template <typename T>
+    struct Value : public IValue
+    {
+        Value(T val) : value_(val) {}
+        void submit(const Calculator &calc) override
+        {
+            calc.visitValue(value_);
+        }
+        virtual ~Value() = default;
+
+    private:
+        T value_;
+    };
+
     class Calculator
     {
     private:
         /* Итоговые значения для вывода */
-        std::stack<double> result;
+        mutable std::stack<double> result;
 
         template <typename T>
-        void visitValue(T value);
+        void visitValue(T value) const;
 
-        double top_pop();
+        double top_pop() const;
 
     public:
         Calculator(/* args */) = default;
         ~Calculator() = default;
-        double calculate(que_rpn &que_in);
+        double calculate(std::queue<std::unique_ptr<IValue>> &que_in);
 
         template <typename T>
         friend class Value;
     };
 
     template <typename T>
-    void Calculator::visitValue(T value)
+    void Calculator::visitValue(T value) const
     {
         if constexpr (std::is_floating_point<T>::value)
         {

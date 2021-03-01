@@ -12,11 +12,11 @@ namespace ntProgress
         priority_.insert({'/', 2});
     }
 
-    que_rpn Converter::toRPN(const std::string &infix)
+    std::queue<std::unique_ptr<IValue>> Converter::toRPN(const std::string &infix)
     {
         const char *p_value = infix.c_str();
 
-        que_rpn out;
+        std::queue<std::unique_ptr<IValue>> out;
 
         while (*p_value)
         {
@@ -45,7 +45,7 @@ namespace ntProgress
         return out;
     }
 
-    void Converter::check_op(const char *p_value, que_rpn &out)
+    void Converter::check_op(const char *p_value, std::queue<std::unique_ptr<IValue>> &out)
     {
         char op = *p_value;
         switch (op)
@@ -62,7 +62,7 @@ namespace ntProgress
         }
     }
 
-    void Converter::collapse_bracket(que_rpn &out)
+    void Converter::collapse_bracket(std::queue<std::unique_ptr<IValue>> &out)
     {
         while (!operand_.empty())
         {
@@ -80,7 +80,7 @@ namespace ntProgress
         }
     }
 
-    void Converter::assign_op(char op, que_rpn &out)
+    void Converter::assign_op(char op, std::queue<std::unique_ptr<IValue>> &out)
     {
         while (!operand_.empty() && priority_[op] <= priority_[operand_.top()])
         {

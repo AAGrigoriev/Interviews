@@ -1,17 +1,15 @@
 #include "Converter.hpp"
-#include <vector>
-
+#include <iostream>
 using namespace ntProgress;
 
 int main()
 {
     Converter conv;
+     Calculator calc;
 
-    que_rpn out_ = conv.toRPN("3+4*2-1");
+    std::queue<std::unique_ptr<IValue>> rpn = conv.toRPN("3+4*2-1");
 
-    Calculator calc;
-
-    calc.calculate(out_);
+    std::cout << calc.calculate(rpn) << std::endl;
 
     return 0;
 }

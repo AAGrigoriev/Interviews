@@ -2,17 +2,17 @@
 
 namespace ntProgress
 {
-    double Calculator::calculate(que_rpn &que_in)
+    double Calculator::calculate(std::queue<std::unique_ptr<IValue>> &que_in)
     {
         while (!que_in.empty())
         {
-            que_in.front()->submit(this);
+            que_in.front()->submit(*this);
             que_in.pop();
         }
         return result.top();
     }
 
-    double Calculator::top_pop()
+    double Calculator::top_pop() const 
     {
         double out = result.top();
         result.pop();
