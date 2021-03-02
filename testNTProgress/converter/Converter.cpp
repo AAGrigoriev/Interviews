@@ -1,9 +1,10 @@
 #include <cctype>
-#include "Converter.hpp"
+#include <algorithm>
 
+#include "Converter.hpp"
 namespace ntProgress
 {
-    Converter::Converter()
+    Converter::Converter() : allower_symbol_{'(', ')', '+', '-', '*', '/'}
     {
         priority_.insert({'(', 0});
         priority_.insert({'+', 1});
@@ -82,11 +83,14 @@ namespace ntProgress
 
     void Converter::assign_op(char op, std::queue<std::unique_ptr<IValue>> &out)
     {
-        while (!operand_.empty() && priority_[op] <= priority_[operand_.top()])
+        if (std::find(allower_symbol_.begin(), allower_symbol_.end(), op) != std::end(allower_symbol_))
         {
-            out.push(std::unique_ptr<IValue>(new Value<char>(operand_.top())));
-            operand_.pop();
+            while (!operand_.empty() && priority_[op] <= priority_[operand_.top()])
+            {
+                out.push(std::unique_ptr<IValue>(new Value<char>(operand_.top())));
+                operand_.pop();
+            }
+            operand_.push(op);
         }
-        operand_.push(op);
     }
 }

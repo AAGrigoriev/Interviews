@@ -4,12 +4,9 @@ using namespace ntProgress;
 
 int main()
 {
-    Converter conv;
-     Calculator calc;
+    Calculator calc;
 
-    std::queue<std::unique_ptr<IValue>> rpn = conv.toRPN("3+4*2-1");
-
-    std::cout << calc.calculate(rpn) << std::endl;
+    std::cout << calc.calculate("3+4*2-1") << std::endl;
 
     return 0;
 }

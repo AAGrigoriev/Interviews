@@ -4,6 +4,7 @@
 #include <stack>
 #include <queue>
 #include <memory>
+#include <string>
 
 namespace ntProgress
 {
@@ -45,7 +46,7 @@ namespace ntProgress
     public:
         Calculator(/* args */) = default;
         ~Calculator() = default;
-        double calculate(std::queue<std::unique_ptr<IValue>> &que_in);
+        double calculate(const std::string &infix_notation);
 
         template <typename T>
         friend class Value;

@@ -19,4 +19,6 @@ target_include_directories(testNTProgress PRIVATE
                                             ${CMAKE_CURRENT_SOURCE_DIR}/opt
                                             )
 
+add_subdirectory(test)
 
+enable_testing()
