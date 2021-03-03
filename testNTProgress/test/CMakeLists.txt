@@ -5,7 +5,9 @@ project(googltest)
 find_package(GTest REQUIRED)
 
 add_executable(gtest_ntProgress
-    main.cpp  
+    main_test.cpp  
+    ${CMAKE_CURRENT_SOURCE_DIR}/../calculator/Calculator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../converter/Converter.cpp
 )
 
 target_link_libraries(gtest_ntProgress PRIVATE ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} pthread)
