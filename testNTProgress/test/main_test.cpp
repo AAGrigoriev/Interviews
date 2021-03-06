@@ -17,12 +17,11 @@ TEST(test_simple, test_double)
     ASSERT_EQ(calc.calculate("2.5+3.5*2"), 9.5);
 }
 
-/* Доделать выброс исключения */
 TEST(test_simple, test_wrong)
 {
     ntProgress::Calculator calc;
 
-    ASSERT_EQ(calc.calculate("2.5avcx+3.5*2xvxv"), 9.5);
+    ASSERT_THROW(calc.calculate("1+3+abc"), std::invalid_argument);
 }
 
 int main(int argc, char **argv)

@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <string>
 #include <array>
+#include <vector>
 
 #include "Calculator.hpp"
 
@@ -23,7 +24,8 @@ namespace ntProgress
         void assign_op(char op, std::queue<std::unique_ptr<IValue>> &out);
 
         std::stack<char>                 operand_;                  // Стек для временных операндов
-        std::array<char,6>               allower_symbol_;           // Массив разрешенных символов 
+        std::array<char,6>               allower_symbols_;          // Массив разрешенных символов 
         std::unordered_map<char, int8_t> priority_;                 // Таблица для приоритетов
+        std::string                      wrong_symbols_;            // Контейнер для неподхожящих символов 
     };
 }

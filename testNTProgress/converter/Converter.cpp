@@ -1,10 +1,12 @@
 #include <cctype>
 #include <algorithm>
+#include <stdexcept>
+	
 
 #include "Converter.hpp"
 namespace ntProgress
 {
-    Converter::Converter() : allower_symbol_{'(', ')', '+', '-', '*', '/'}
+    Converter::Converter() : allower_symbols_{'(', ')', '+', '-', '*', '/'}
     {
         priority_.insert({'(', 0});
         priority_.insert({'+', 1});
@@ -36,6 +38,11 @@ namespace ntProgress
                 check_op(p_value, out);
                 ++p_value;
             }
+        }
+
+        if (!wrong_symbols_.empty())
+        {
+            throw std::invalid_argument("Invalid param " + wrong_symbols_);
         }
 
         while (!operand_.empty())
@@ -83,7 +90,7 @@ namespace ntProgress
 
     void Converter::assign_op(char op, std::queue<std::unique_ptr<IValue>> &out)
     {
-        if (std::find(allower_symbol_.begin(), allower_symbol_.end(), op) != std::end(allower_symbol_))
+        if (std::find(allower_symbols_.begin(), allower_symbols_.end(), op) != std::end(allower_symbols_))
         {
             while (!operand_.empty() && priority_[op] <= priority_[operand_.top()])
             {
@@ -91,6 +98,10 @@ namespace ntProgress
                 operand_.pop();
             }
             operand_.push(op);
+        }
+        else
+        {
+            wrong_symbols_.push_back(op);
         }
     }
 }

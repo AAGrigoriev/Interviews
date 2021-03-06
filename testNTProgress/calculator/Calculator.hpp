@@ -21,7 +21,7 @@ namespace ntProgress
     template <typename T>
     struct Value : public IValue
     {
-        Value(T val) : value_(val) {}
+        Value(T val) noexcept : value_(val) {}
         void submit(const Calculator &calc) override
         {
             calc.visitValue(value_);
@@ -61,38 +61,46 @@ namespace ntProgress
         }
         else
         {
-            switch (value)
+            if (result.size() == 1)
             {
-            case '+':
+                if(value == '-')
+                    result.push(-top_pop());
+            }
+            else
             {
-                auto right = top_pop();
-                auto left = top_pop();
-                result.push(left + right);
+                switch (value)
+                {
+                case '+':
+                {
+                    auto right = top_pop();
+                    auto left = top_pop();
+                    result.push(left + right);
+                    break;
+                }
+                case '*':
+                {
+                    auto right = top_pop();
+                    auto left = top_pop();
+                    result.push(left * right);
+                }
                 break;
-            }
-            case '*':
-            {
-                auto right = top_pop();
-                auto left = top_pop();
-                result.push(left * right);
-            }
-            break;
-            case '-':
-            {
-                auto right = top_pop();
-                auto left = top_pop();
-                result.push(left - right);
-            }
-            break;
-            case '/':
-            {
-                auto right = top_pop();
-                auto left = top_pop();
-                result.push(left / right);
-            }
-            break;
-            default:
+                case '-':
+                {
+                    auto right = top_pop();
+                    auto left = top_pop();
+                    result.push(left - right);
+                }
                 break;
+                case '/':
+                {
+                    auto right = top_pop();
+                    auto left = top_pop();
+                    result.push(left / right);
+                }
+                break;
+                default:
+                    break;
+                }
             }
         }
     }
