@@ -42,7 +42,6 @@ auto create_freq_map(std::filesystem::path path) {
     fill_map(out, split_string(buffer));
   } else {
     while (std::getline(input, buffer)) {
-      auto vec_string = split_string(buffer);
       fill_map(out, split_string(buffer));
     }
   }
