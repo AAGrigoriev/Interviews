@@ -6,7 +6,7 @@
 
 namespace bomber_man {
 
-class abstract_bomber_man {
+class abstract_resolver {
  public:
   struct result {
     int sum{};
@@ -20,7 +20,7 @@ class abstract_bomber_man {
   using direction = std::array<std::array<int, 2>, 4>;
 
  public:
-  abstract_bomber_man();
+  abstract_resolver();
 
   bool init_map(const std::filesystem::path& path);
 

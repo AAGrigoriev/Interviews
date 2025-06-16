@@ -1,4 +1,4 @@
-#include "abstract_bomber_man.hpp"
+#include "abstract_resolver.hpp"
 
 #include <fstream>
 #include <string_view>
@@ -25,10 +25,10 @@ std::vector<std::size_t> split_string(std::string_view string, char token) {
 
 }  // namespace _
 
-abstract_bomber_man::abstract_bomber_man()
+abstract_resolver::abstract_resolver()
     : next_{std::array{0, 1}, {1, 0}, {0, -1}, {-1, 0}} {}
 
-bool abstract_bomber_man::init_map(const std::filesystem::__cxx11::path& path) {
+bool abstract_resolver::init_map(const std::filesystem::__cxx11::path& path) {
   namespace fs = std::filesystem;
 
   if (fs::is_regular_file(path)) {
@@ -60,7 +60,7 @@ bool abstract_bomber_man::init_map(const std::filesystem::__cxx11::path& path) {
   return false;
 }
 
-int abstract_bomber_man::get_enemy_killed(int i, int j) {
+int abstract_resolver::get_enemy_killed(int i, int j) {
   int result = 0, x, y;
 
   x = i;

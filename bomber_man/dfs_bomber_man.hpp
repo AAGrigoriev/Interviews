@@ -1,10 +1,10 @@
 #pragma once
 
-#include "abstract_bomber_man.hpp"
+#include "abstract_resolver.hpp"
 
 namespace bomber_man {
 
-class dfs_bomber_man : public abstract_bomber_man {
+class dfs_bomber_man : public abstract_resolver {
  public:
   result calculate() override final;
 
