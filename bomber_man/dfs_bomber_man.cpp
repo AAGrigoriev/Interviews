@@ -1,14 +1,14 @@
 #include "dfs_bomber_man.hpp"
 
-namespace bomber_man {
+namespace dfs_bfs_resolver {
 
 abstract_resolver::result dfs_bomber_man::calculate() {
-  result res{};
+  bomber_result res{};
   dfs(start_pos_x_, start_pos_y_, res);
   return res;
 }
 
-void dfs_bomber_man::dfs(int x, int y, result& res) {
+void dfs_bomber_man::dfs(int x, int y, bomber_result& res) {
   const auto sum = get_enemy_killed(x, y);
 
   if (sum > res.sum) {
@@ -30,4 +30,15 @@ void dfs_bomber_man::dfs(int x, int y, result& res) {
   }
 }
 
+bool dfs_bomber_man::parse_header(const std::vector<std::size_t>& vec)
+{
+  if (vec.size() == 4) {
+    row_count_ = vec[0];
+    col_count = vec[1];
+    start_pos_x_ = vec[2];
+    start_pos_y_ = vec[3];
+    return true;
+  }
+  return false;
+}
 }  // namespace bomber_man

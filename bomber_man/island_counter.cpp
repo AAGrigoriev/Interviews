@@ -3,7 +3,7 @@
 #include <iostream>
 #include <iomanip>
 
-namespace bomber_man {
+namespace dfs_bfs_resolver {
 
 abstract_resolver::result island_counter::calculate() {
   int current_color = 0;
@@ -24,8 +24,7 @@ abstract_resolver::result island_counter::calculate() {
     std::cout << std::endl;
   }
 
-  result res; // todo
-  return res;
+  return {};
 }
 
 void island_counter::dfs(int x, int y, int current_color) {
@@ -40,5 +39,15 @@ void island_counter::dfs(int x, int y, int current_color) {
       dfs(tx, ty, current_color);
     }
   }
+}
+
+bool island_counter::parse_header(const std::vector<std::size_t>& vec)
+{
+  if (vec.size() == 2) {
+    row_count_ = vec[0];
+    col_count = vec[1];
+    return true;
+  }
+  return false;
 }
 }

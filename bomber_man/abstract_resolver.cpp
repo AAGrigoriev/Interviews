@@ -4,7 +4,7 @@
 #include <string_view>
 #include <vector>
 
-namespace bomber_man {
+namespace dfs_bfs_resolver {
 
 namespace _ {
 
@@ -35,12 +35,7 @@ bool abstract_resolver::init_map(const std::filesystem::__cxx11::path& path) {
     if (auto str = std::ifstream(path); str.is_open()) {
       std::string line;
       std::getline(str, line);
-      if (const auto sizes = _::split_string(line, ';'); sizes.size() == 4) {
-        row_count_ = sizes[0];
-        col_count = sizes[1];
-        start_pos_x_ = sizes[2];
-        start_pos_y_ = sizes[3];
-
+      if (parse_header( _::split_string(line, ';'))) {
         visited_points_.resize(row_count_, std::vector<bool>(col_count, false));
         map_.reserve(row_count_);
 

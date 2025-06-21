@@ -2,13 +2,13 @@
 
 #include <vector>
 
-namespace bomber_man {
+namespace dfs_bfs_resolver {
 
 // 0 - стена
 // 1 - враг
 // 2 - свободное поле
 bfs_bomber_man::result bfs_bomber_man::calculate() {
-  result res;
+  bomber_result res;
   res.mx = start_pos_x_;
   res.my = start_pos_y_;
   res.sum = get_enemy_killed(start_pos_x_, start_pos_y_);
@@ -37,6 +37,18 @@ bfs_bomber_man::result bfs_bomber_man::calculate() {
     }
   }
   return res;
+}
+
+bool bfs_bomber_man::parse_header(const std::vector<std::size_t>& vec)
+{
+  if (vec.size() == 4) {
+    row_count_ = vec[0];
+    col_count = vec[1];
+    start_pos_x_ = vec[2];
+    start_pos_y_ = vec[3];
+    return true;
+  }
+  return false;
 }
 
 }  // namespace bomber_man
